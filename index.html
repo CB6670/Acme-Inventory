@@ -96,6 +96,8 @@
         }
         async componentDidUpdate() {
           const res = await axios.get("/api/products");
+          const data = res.data;
+          this.setState({products: data});
         }
         render() {
           return (

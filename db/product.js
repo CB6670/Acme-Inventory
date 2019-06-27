@@ -7,10 +7,11 @@ const Product = db.define("product", {
     type: Sequelize.STRING,
     allowNull: false
   },
-  slug: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
+ status:{
+   type: Sequelize.STRING,
+   defaultValue: "InStock"
+ }
 });
+
 
 module.exports = Product;
