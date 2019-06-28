@@ -25,6 +25,7 @@
     <script type="text/babel">
       const root = document.querySelector("#root");
       const { Link, Route, HashRouter } = ReactRouterDOM;
+      const axios = axios;
       const All = (props) => {
           return(
               <div>
@@ -94,15 +95,21 @@
             products: []
           };
         }
-        async componentDidUpdate() {
+        async componentDidMount() {
+          try{
           const res = await axios.get("/api/products");
           const data = res.data;
+          //console.log(data);
           this.setState({products: data});
+          }catch(err){
+            console.error(err);
+          }
         }
         render() {
           return (
             <HashRouter>
               <div id = 'returnDiv'>
+                {console.log(Array.isArray(this.state.products))}
                 <Link to = '/'>All Products</Link>
                 <Link to = '/in-stock'>In Stock</Link>
                 <Link to = '/back-ordered'>Back Ordered</Link>
@@ -112,21 +119,19 @@
               <Route
                 exact
                 path="/"
-                render={() => <All products={this.state.products} />}
+                render={(props) => <All {...props} products={this.state.products} />}
               />
               <Route
                 path="/in-stock"
-                render={() => <InStock products={this.state.products} />}
+                render={(props) => <InStock {...props} products={this.state.products} />}
               />
               <Route
-                exact
                 path="/back-ordered"
-                render={() => <BackOrdered products={this.state.products} />}
+                render={(props) => <BackOrdered {...props} products={this.state.products} />}
               />
               <Route
-                exact
                 path="/discontinued"
-                render={() => <Discontinued products={this.state.products} />}
+                render={(props) => <Discontinued {...props} products={this.state.products} />}
               />
             </HashRouter>
           );
